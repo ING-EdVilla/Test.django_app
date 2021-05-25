@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %} {{ block.super }} | Inicio {% endblock %}
+
+{% block style %}
+    .jumbotron {
+        background-color: #172548 !important;
+    }
+{% endblock %}
+
+{% block jumbotron %}
+
+{% if request.user.is_staff %}
+<table class="table">
+{% for instance in queryset %}
+<tr>
+    <td>
+        {{ forloop.counter }}
+    </td>
+    <td>
+        {{ instance }}
+    </td>
+    <td>
+        {{ instance.nombre }}
+    </td>
+    <td>
+        {{ instance.timestamp | timesince }} ago
+    </td>
+</tr>
+{% endfor %}
+</table>
+{% else %}
+<div class="bg-light p-5 rounded">
+    <div class="row">
+        <div class="col-sm-6">
+            <h1>Proyecto django</h1>
+            <p class="lead">Este proyecto es el primero que hago usando django framework, espero que mis conocimientos sobre esta tecnologia sigan mejorando y con el tiempo espero poder considerarme que tengo un nivel senior, gracias a todos!!!</p>
+            <a class="btn btn-lg btn-primary" href="/docs/5.0/components/navbar/" role="button">Unete al Curso &raquo;</a>
+        </div>
+        <div class="col-sm-6">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/ChSvnSv_3aw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% if not request.user.is_staff %}
+<div class="row">
+    <div class="col-sm-3 float-end">
+        
+        {% if not user.is_authenticated %}
+            <p class="lead text-align-center">
+                Subscribete
+                <hr/>
+            </p>
+            {% if el_form %}
+            <form method="POST" action="">{% csrf_token %}
+                {{ el_form|crispy }}
+                <input class="btn btn-primary mt-3" type="submit" value="Enviar" />
+            </form>
+            <br/>
+            {% endif %}
+        {% else %}
+            <p class="lead text-align-center">
+                {{ titulo }} <br/>
+                <hr/>
+                <br>
+            </p>
+            <p class="lead text-align-center">
+                <i class="fa fa-hand-peace-o fa-5x" aria-hidden="true"></i>
+            </p>
+            
+        {% endif %}
+    </div>
+    <div class="col-sm-3 lead text-align-center">
+        <p>
+            En Guadalajara, como en todas partes, existen además cambios profundos entre las generaciones.
+        </p>
+        <img src="{% static 'img/obama.jpg' %}" alt="obama come tacos">
+    </div>
+    <div class="col-sm-3 lead text-align-center">
+        <p>
+            la sabiduría tradicional de la abuelita contrasta radicalmente con las competencias tecnológicas de la generación entre diez y veinte años.
+            <br><span class="fa-stack fa-5x text-primary">
+                <i class="fa fa-circle-o-notch fa-spin fa-stack-2x"></i>
+                <i class="fa fa-bullhorn fa-stack-1x"></i>
+              </span>
+        </p>
+
+    </div>
+
+    <div class="col-sm-3 lead text-align-center">
+        <p>
+            Los grupos sociales también son bastantes heterogéneos, la pujanza de la clase media tapatía dista mucho de la actitud comodina de los “niños bien”.
+            <br><span class="fa-stack fa-5x">
+                <i class="fa fa-spinner fa-spin fa-stack-2x"></i>
+                <i class="fa fa-font-awesome fa-stack-1x"></i>
+              </span>
+        </p>
+
+    </div>
+    
+</div>
+{% endif %}
+{% endblock %}
